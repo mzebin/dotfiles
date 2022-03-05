@@ -1,0 +1,157 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+background = #282A36
+background-alt = #44475A
+foreground = #F8F8F2
+primary = #8BE9FD
+secondary = #8ABEB7
+alert = #FF5555
+disabled = #808080
+
+[bar/bar]
+width = 100%
+height = 2.5%
+radius = 0
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+
+border-size = 2
+border-color = #00000000
+
+padding-left = 0
+padding-right = 1
+
+module-margin = 1
+
+separator = |
+separator-foreground = ${colors.disabled}
+
+font-0 = FiraCode Nerd Font;1
+
+modules-left = i3
+modules-right = memory cpu pulseaudio date
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+enable-ipc = true
+
+bottom = true
+
+[module/i3]
+type = internal/i3
+
+; Default: false
+pin-workspaces = true
+
+; Default: false
+strip-wsnumbers = true
+
+; Default: false
+index-sort = true
+
+; Default: true
+enable-click = false
+
+; Default: true
+enable-scroll = false
+
+; Default: true
+wrapping-scroll = false
+
+; Default: true
+reverse-scroll = false
+
+; Default: false
+fuzzy-match = true
+
+format = <label-state> <label-mode>
+
+; Default: %mode%
+label-mode = %mode%
+label-mode-padding = 2
+label-mode-foreground = #000000
+label-mode-background = #ff5555
+
+; Default: %icon% %name%
+label-focused = %index%
+label-focused-padding = 2
+label-focused-foreground = ${colors.foreground}
+label-focused-background = ${colors.background-alt}
+
+; Default: %icon% %name%
+label-unfocused = %index%
+label-unfocused-padding = 2
+label-unfocused-foreground = ${colors.disabled}
+label-unfocused-background = ${colors.background}
+
+; Default: %icon% %name%
+label-visible = %index%
+label-visible-padding = 2
+
+; Default: %icon% %name%
+label-urgent = %index%
+label-urgent-foreground = #000000
+label-urgent-background = #ff5555
+label-urgent-padding = 2
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume-prefix = "墳 "
+format-volume-prefix-foreground = ${colors.primary}
+format-volume = <label-volume>
+
+label-volume = %percentage%%
+
+label-muted = "婢 %percentage%%"
+label-muted-foreground = ${colors.disabled}
+
+[module/memory]
+type = internal/memory
+interval = 5
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+label = %{A1:gnome-system-monitor:}%percentage_used:2%%%{A}
+
+[module/cpu]
+type = internal/cpu
+interval = 5
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+label = %{A1:gnome-system-monitor:}%percentage:2%%%{A}
+
+[module/date]
+type = internal/date
+interval = 30
+
+date = %H:%M
+date-alt = %a - %d/%m/%y %H:%M
+
+label = %date%
+label-foreground = ${colors.foreground}
+
+[settings]
+screenchange-reload = true
+pseudo-transparency = true
+

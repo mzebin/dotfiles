@@ -1,0 +1,326 @@
+##################################################
+#                  Applications                  #
+##################################################
+
+# Terminal Emulator
+set $terminal-emulator x-terminal-emulator
+
+# Browser
+set $web_browser firefox
+
+# File Browser
+# set $file_browser nautilus
+set $file_browser alacritty -e lf
+
+# Screenshot
+set $screenshot gnome-screenshot -i
+
+# Floating Window
+for_window [class="gnome-system-monitor"] floating enable
+for_window [class="gnome-calculator"] floating enable
+
+##################################################
+#                  Applications                  #
+##################################################
+
+##################################################
+#                    Options                     #
+##################################################
+
+### General ###
+popup_during_fullscreen smart
+focus_follows_mouse no
+
+### Appearance ###
+
+# Colors
+# class                 border  bground text    indicator child_border
+client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+
+client.background       #F8F8F2
+
+# Disabling title bar
+default_border pixel 1
+default_floating_border pixel 1
+
+# Font
+font pango:FiraCode Nerd Font 11
+
+# Gaps
+for_window [class=".*"] border pixel 2
+gaps inner 15
+
+##################################################
+#                    Options                     #
+##################################################
+
+##################################################
+#                  Key Mappings                  #
+##################################################
+set $alt Mod1
+set $mod Mod4
+floating_modifier $mod
+
+### Launch ###
+
+# Terminal Emulator
+bindsym $mod+Return exec $terminal-emulator
+
+# Web Browser
+bindsym $mod+Shift+Return exec $web_browser
+
+# File Browser
+bindsym $mod+Ctrl+Return exec $file_browser
+
+# Screenshot
+bindsym $mod+x exec $screenshot
+
+# Rofi
+bindsym $mod+space exec rofi -show drun -modi drun
+bindsym $mod+Shift+space exec rofi -show run -modi run
+bindsym $mod+Ctrl+space exec rofi -show window -modi window
+bindsym $mod+$alt+space exec rofi -show file-browser -modi file-browser
+
+### Workspace and Window Navigations
+
+## Workspace ##
+
+# Workspace Names
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Switch to workspace 1-9
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# Navigate to relative workspaces
+bindsym $mod+$alt+Right workspace next
+bindsym $mod+$alt+Left workspace prev
+
+## Window ##
+
+# Relative Parent
+bindsym $mod+a focus parent
+
+# Relative Child
+bindsym $mod+z focus child
+
+# Navigate to scratchpad
+bindsym $mod+Ctrl+a scratchpad show
+
+# Relative Windows
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+### Window Modification ###
+
+# Move Windows
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Move Windows across workspaces
+bindsym $mod+Ctrl+Shift+Left move container to workspace prev
+bindsym $mod+Ctrl+Shift+Right move container to workspace next
+
+bindsym $mod+Ctrl+Shift+h move container to workspace prev
+bindsym $mod+Ctrl+Shift+l move container to workspace next
+
+# Layouts
+bindsym $mod+v split vertical
+bindsym $mod+g split horizontal
+bindsym $mod+BackSpace split toggle
+
+# Toggle Fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Toggle floating window
+bindsym $mod+Shift+f floating toggle
+
+# Move window to scratchpad
+bindsym $mod+Ctrl+m move to scratchpad
+
+# Toggle focus mode
+bindsym $mod+Shift+t focus mode_toggle
+
+# Window Layout Mode
+bindsym $mod+t layout toggle tabbed splith splitv
+
+# Move Window to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# Move window to workspace and move to workspace
+bindsym $mod+$alt+1 move container to workspace number $ws1; workspace number $ws1
+bindsym $mod+$alt+2 move container to workspace number $ws2; workspace number $ws2
+bindsym $mod+$alt+3 move container to workspace number $ws3; workspace number $ws3
+bindsym $mod+$alt+4 move container to workspace number $ws4; workspace number $ws4
+bindsym $mod+$alt+5 move container to workspace number $ws5; workspace number $ws5
+bindsym $mod+$alt+6 move container to workspace number $ws6; workspace number $ws6
+bindsym $mod+$alt+7 move container to workspace number $ws7; workspace number $ws7
+bindsym $mod+$alt+8 move container to workspace number $ws8; workspace number $ws8
+bindsym $mod+$alt+9 move container to workspace number $ws9; workspace number $ws9
+bindsym $mod+$alt+10 move container to workspace number $ws10; workspace number $ws10
+
+### Session Management ###
+
+# Exit Application
+bindsym $mod+Shift+q kill
+
+# Reload i3 Config
+bindsym $mod+Shift+c reload
+
+# Restart i3
+bindsym $mod+Shift+r restart
+
+# Logout
+# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit?' -B 'Yes' 'i3-msg exit'"
+# bindsym $mod+Shift+e exec python3 $HOME/.config/i3/scripts/logout.py
+bindsym $mod+Shift+e exec python3 $HOME/.config/i3/scripts/session_management.py logout
+
+# Reboot
+# bindsym $mod+Shift+b exec python3 $HOME/.config/i3/scripts/reboot.py
+bindsym $mod+Shift+b exec python3 $HOME/.config/i3/scripts/session_management.py reboot
+
+# Poweroff
+# bindsym $mod+Shift+p exec python3 $HOME/.config/i3/scripts/poweroff.py
+bindsym $mod+Shift+p exec python3 $HOME/.config/i3/scripts/session_management.py poweroff
+
+# Lock Screen
+bindsym $mod+Shift+BackSpace exec i3lock --color 000000
+
+# Sleep
+bindsym $mod+Shift+s exec systemctl suspend
+
+### System Management ###
+
+# Settings
+bindsym $mod+c exec gnome-control-center --class=floating_window
+
+# Cause Settings app to float above tiled windows
+floating_maximum_size -1 x -1
+for_window [class="floating_window"] floating enable
+
+# Display Settings
+bindsym $mod+w exec gnome-control-center --class=floating_window wifi
+
+# Bluetooth Settings
+bindsym $mod+b exec gnome-control-center --class=floating_window bluetooth
+
+# Sound Settigns
+bindsym $mod+s exec gnome-control-center --class=floating_window sound
+
+# Sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+### Resize ###
+mode "Resize Mode" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Resize window
+        bindsym h resize shrink width 5 px or 5 ppt
+        bindsym k resize grow height 5 px or 5 ppt
+        bindsym j resize shrink height 5 px or 5 ppt
+        bindsym l resize grow width 5 px or 5 ppt
+
+        bindsym Shift+h resize shrink width 10 px or 10 ppt
+        bindsym Shift+k resize grow height 10 px or 10 ppt
+        bindsym Shift+j resize shrink height 10 px or 10 ppt
+        bindsym Shift+l resize grow width 10 px or 10 ppt
+
+        bindsym Left resize shrink width 5 px or 5 ppt
+        bindsym Up resize grow height 5 px or 5 ppt
+        bindsym Down resize shrink height 5 px or 5 ppt
+        bindsym Right resize grow width 5 px or 5 ppt
+
+        bindsym Shift+Left resize shrink width 10 px or 10 ppt
+        bindsym Shift+Up resize grow height 10 px or 10 ppt
+        bindsym Shift+Down resize shrink height 10 px or 10 ppt
+        bindsym Shift+Right resize grow width 10 px or 10 ppt
+
+        # Resize window gaps
+        bindsym minus gaps inner current minus 5
+        bindsym plus gaps inner current plus 5
+
+        bindsym Shift+minus gaps inner current minus 10
+        bindsym Shift+plus gaps inner current plus 10
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "Resize Mode"
+
+##################################################
+#                  Key Mappings                  #
+##################################################
+
+
+##################################################
+#               Startup Programs                 #
+##################################################
+
+# Wallpaper
+exec_always feh --bg-fill --randomize $HOME/.wallpapers/
+
+# Polybar
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# Picom
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf --experimental-backends -b
+
+# Notification
+exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
+
+# Others
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id nm-applet
+
+##################################################
+#               Startup Programs                 #
+##################################################
