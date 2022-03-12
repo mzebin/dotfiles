@@ -51,8 +51,9 @@ default_floating_border pixel 1
 font pango:FiraCode Nerd Font 11
 
 # Gaps
-for_window [class=".*"] border pixel 2
 gaps inner 15
+hide_edge_borders smart
+for_window [class=".*"] border pixel 1
 
 ##################################################
 #                    Options                     #
@@ -306,7 +307,7 @@ bindsym $mod+r mode "Resize Mode"
 ##################################################
 
 # Wallpaper
-exec_always feh --bg-fill --randomize $HOME/.wallpapers/
+exec_always nitrogen --set-scaled --random
 
 # Polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
