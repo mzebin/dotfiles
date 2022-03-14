@@ -1,7 +1,37 @@
+##################################################
+#                  Applications                  #
+##################################################
+
+# Terminal Emulator
+set $terminal-emulator x-terminal-emulator
+
+# Browser
+set $web_browser firefox
+
+# File Browser
+# set $file_browser nautilus
+set $file_browser alacritty -e lf
+
+# Screenshot
+set $screenshot gnome-screenshot -i
+
+# Floating Window
+for_window [class="gnome-system-monitor"] floating enable
+for_window [class="gnome-calculator"] floating enable
+
+##################################################
+#                  Applications                  #
+##################################################
+
+##################################################
+#                    Options                     #
+##################################################
+
+### General ###
 popup_during_fullscreen smart
 focus_follows_mouse no
 
-# Appearance
+### Appearance ###
 
 # Colors
 # class                 border  bground text    indicator child_border
@@ -25,9 +55,18 @@ gaps inner 15
 hide_edge_borders smart
 for_window [class=".*"] border pixel 1
 
+##################################################
+#                    Options                     #
+##################################################
+
+##################################################
+#                  Key Mappings                  #
+##################################################
 set $alt Mod1
 set $mod Mod4
 floating_modifier $mod
+
+### Launch ###
 
 # Terminal Emulator
 bindsym $mod+Return exec $terminal-emulator
@@ -47,48 +86,9 @@ bindsym $mod+Shift+space exec rofi -show run -modi run
 bindsym $mod+Ctrl+space exec rofi -show window -modi window
 bindsym $mod+$alt+space exec rofi -show file-browser -modi file-browser
 
-# Exit Application
-bindsym $mod+Shift+q kill
+### Workspace and Window Navigations
 
-# Reload i3 Config
-bindsym $mod+Shift+c reload
-
-# Restart i3
-bindsym $mod+Shift+r restart
-
-# Logout
-# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit?' -B 'Yes' 'i3-msg exit'"
-bindsym $mod+Shift+e exec python3 $HOME/.config/i3/scripts/session_management.py logout
-
-# Reboot
-bindsym $mod+Shift+b exec python3 $HOME/.config/i3/scripts/session_management.py reboot
-
-# Poweroff
-bindsym $mod+Shift+p exec python3 $HOME/.config/i3/scripts/session_management.py poweroff
-
-# Lock Screen
-bindsym $mod+Shift+BackSpace exec i3lock --color 000000
-
-# Sleep
-bindsym $mod+Shift+s exec systemctl suspend
-
-# Settings
-bindsym $mod+c exec gnome-control-center --class=floating_window
-
-# Display Settings
-bindsym $mod+w exec gnome-control-center --class=floating_window wifi
-
-# Bluetooth Settings
-bindsym $mod+b exec gnome-control-center --class=floating_window bluetooth
-
-# Sound Settigns
-bindsym $mod+s exec gnome-control-center --class=floating_window sound
-
-# Sound
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+## Workspace ##
 
 # Workspace Names
 set $ws1 "1"
@@ -118,6 +118,8 @@ bindsym $mod+0 workspace number $ws10
 bindsym $mod+$alt+Right workspace next
 bindsym $mod+$alt+Left workspace prev
 
+## Window ##
+
 # Relative Parent
 bindsym $mod+a focus parent
 
@@ -138,7 +140,7 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# Window Modification
+### Window Modification ###
 
 # Move Windows
 bindsym $mod+Shift+Left move left
@@ -158,8 +160,25 @@ bindsym $mod+Ctrl+Shift+Right move container to workspace next
 bindsym $mod+Ctrl+Shift+h move container to workspace prev
 bindsym $mod+Ctrl+Shift+l move container to workspace next
 
+# Layouts
+bindsym $mod+v split vertical
+bindsym $mod+g split horizontal
+bindsym $mod+BackSpace split toggle
+
+# Toggle Fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Toggle floating window
+bindsym $mod+Shift+f floating toggle
+
 # Move window to scratchpad
 bindsym $mod+Ctrl+m move to scratchpad
+
+# Toggle focus mode
+bindsym $mod+Shift+t focus mode_toggle
+
+# Window Layout Mode
+bindsym $mod+t layout toggle tabbed splith splitv
 
 # Move Window to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -185,8 +204,61 @@ bindsym $mod+$alt+8 move container to workspace number $ws8; workspace number $w
 bindsym $mod+$alt+9 move container to workspace number $ws9; workspace number $ws9
 bindsym $mod+$alt+10 move container to workspace number $ws10; workspace number $ws10
 
+### Session Management ###
 
-# Resize
+# Exit Application
+bindsym $mod+Shift+q kill
+
+# Reload i3 Config
+bindsym $mod+Shift+c reload
+
+# Restart i3
+bindsym $mod+Shift+r restart
+
+# Logout
+# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit?' -B 'Yes' 'i3-msg exit'"
+# bindsym $mod+Shift+e exec python3 $HOME/.config/i3/scripts/logout.py
+bindsym $mod+Shift+e exec python3 $HOME/.config/i3/scripts/session_management.py logout
+
+# Reboot
+# bindsym $mod+Shift+b exec python3 $HOME/.config/i3/scripts/reboot.py
+bindsym $mod+Shift+b exec python3 $HOME/.config/i3/scripts/session_management.py reboot
+
+# Poweroff
+# bindsym $mod+Shift+p exec python3 $HOME/.config/i3/scripts/poweroff.py
+bindsym $mod+Shift+p exec python3 $HOME/.config/i3/scripts/session_management.py poweroff
+
+# Lock Screen
+bindsym $mod+Shift+BackSpace exec i3lock --color 000000
+
+# Sleep
+bindsym $mod+Shift+s exec systemctl suspend
+
+### System Management ###
+
+# Settings
+bindsym $mod+c exec gnome-control-center --class=floating_window
+
+# Cause Settings app to float above tiled windows
+floating_maximum_size -1 x -1
+for_window [class="floating_window"] floating enable
+
+# Display Settings
+bindsym $mod+w exec gnome-control-center --class=floating_window wifi
+
+# Bluetooth Settings
+bindsym $mod+b exec gnome-control-center --class=floating_window bluetooth
+
+# Sound Settigns
+bindsym $mod+s exec gnome-control-center --class=floating_window sound
+
+# Sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+### Resize ###
 mode "Resize Mode" {
         # These bindings trigger as soon as you enter the resize mode
 
@@ -225,22 +297,14 @@ mode "Resize Mode" {
 }
 bindsym $mod+r mode "Resize Mode"
 
-# Layouts
-bindsym $mod+v split vertical
-bindsym $mod+g split horizontal
-bindsym $mod+BackSpace split toggle
+##################################################
+#                  Key Mappings                  #
+##################################################
 
-# Toggle Fullscreen
-bindsym $mod+f fullscreen toggle
 
-# Toggle floating window
-bindsym $mod+Shift+f floating toggle
-
-# Toggle focus mode
-bindsym $mod+Shift+t focus mode_toggle
-
-# Window Layout Mode
-bindsym $mod+t layout toggle tabbed splith splitv
+##################################################
+#               Startup Programs                 #
+##################################################
 
 # Wallpaper
 exec_always nitrogen --set-scaled --random
@@ -257,3 +321,7 @@ exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
 # Others
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
+
+##################################################
+#               Startup Programs                 #
+##################################################
