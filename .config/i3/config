@@ -1,3 +1,24 @@
+# Terminal Emulator
+set $terminal-emulator x-terminal-emulator
+
+# Browser
+set $web_browser firefox
+
+# File Browser
+# set $file_browser nautilus
+set $file_browser alacritty -e lf
+
+# Screenshot
+set $screenshot gnome-screenshot -i
+
+# Floating Window
+for_window [class="gnome-system-monitor"] floating enable
+for_window [class="gnome-calculator"] floating enable
+
+# Cause Settings app to float above tiled windows
+floating_maximum_size -1 x -1
+for_window [class="floating_window"] floating enable
+
 popup_during_fullscreen smart
 focus_follows_mouse no
 
