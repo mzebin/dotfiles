@@ -1,0 +1,277 @@
+#+TITLE: Polybar Config
+
+* TABLE OF CONTENTS :toc:
+- [[#introduction][INTRODUCTION]]
+- [[#launching-the-bar][LAUNCHING THE BAR]]
+- [[#bars][BARS]]
+- [[#modules][MODULES]]
+  - [[#i3][i3]]
+  - [[#date][Date]]
+  - [[#cpu][CPU]]
+  - [[#memory][Memory]]
+  - [[#volume][Volume]]
+- [[#settings][SETTINGS]]
+- [[#includes][INCLUDES]]
+  - [[#colors][Colors]]
+  - [[#fonts][Fonts]]
+
+* INTRODUCTION
+Polybar is a fast and easy-to-use tool for creating status bars. It aims to be easily customizable,
+utilising many modules which enable a wide range of (editable) functionality, such as displaying workspaces,
+the date, or system volume.
+
+Github : https://github.com/polybar/polybar
+Wiki   : https://github.com/polybar/polybar/wiki
+
+* LAUNCHING THE BAR
+An executable file containing the startup logic in $HOME/.config/polybar/launch.sh
+
+#+begin_src shell :tangle launch.sh
+#!/usr/bin/env bash
+
+# Terminate already running bar instances
+# If all your bars have ipc enabled, you can use
+polybar-msg cmd quit
+
+# Otherwise you can use the nuclear option:
+# killall -q polybar
+
+# Launch the Bar
+echo "---" | tee -a /tmp/polybar.log
+polybar bar 2>&1 | tee -a /tmp/polybar.log & disown
+
+echo "Bar launched..."
+#+end_src
+
+* BARS
+This section contains the bars and it's parameters.
+
+#+begin_src conf :tangle config.ini
+# Incluedes
+include-file = $HOME/.config/polybar/includes/colors.ini
+
+[bar/bar]
+# Height and Width of the bar
+height = 30
+width = 100%
+
+# Position of the bar
+bottom = true
+
+# Window Manager
+wm-restack = i3
+
+# Background and Foreground colors
+background = ${colors.bg}
+foreground = ${colors.fg}
+
+# Fonts
+include-file = $HOME/.config/polybar/includes/fonts.ini
+
+modules-left = i3
+modules-center = date
+modules-right = cpu memory pulseaudio
+
+# Tray Settings
+tray-background = ${colors.bg-darker}
+tray-padding = 2
+tray-position = right
+tray-maxsize = 16
+
+# Scroll Settings
+scroll-up = next
+scroll-down = prev
+
+# Cursor Settings
+cursor-click = pointer
+cursor-scroll = ns-resize
+#+end_src
+
+* MODULES
+This section contains module settings. A module is defined as a config section that begins
+with module/ and is followed by the name of the module.
+
+#+begin_src conf :tangle config.ini
+include-file = $HOME/.config/polybar/includes/modules/i3.ini
+include-file = $HOME/.config/polybar/includes/modules/date.ini
+include-file = $HOME/.config/polybar/includes/modules/cpu.ini
+include-file = $HOME/.config/polybar/includes/modules/memory.ini
+include-file = $HOME/.config/polybar/includes/modules/pulseaudio.ini
+#+end_src
+
+** i3
+#+begin_src conf :tangle includes/modules/i3.ini
+[module/i3]
+type = internal/i3
+
+; Default: false
+pin-workspaces = true
+
+; Default: false
+strip-wsnumbers = true
+
+; Default: false
+index-sort = true
+
+; Default: true
+enable-click = false
+
+; Default: true
+enable-scroll = false
+
+; Default: true
+wrapping-scroll = false
+
+; Default: true
+reverse-scroll = false
+
+; Default: false
+fuzzy-match = true
+
+format = <label-state> <label-mode>
+
+; Default: %mode%
+label-mode = %mode%
+label-mode-padding = 2
+label-mode-foreground = ${colors.black}
+label-mode-background = ${colors.purple}
+
+; Default: %icon% %name%
+label-focused = %index%
+label-focused-padding = 2
+label-focused-foreground = ${colors.yellow}
+label-focused-background = ${colors.bg-alt}
+
+; Default: %icon% %name%
+label-unfocused = %index%
+label-unfocused-padding = 2
+label-unfocused-foreground = ${colors.disabled}
+label-unfocused-background = ${colors.bg}
+
+; Default: %icon% %name%
+label-visible = %index%
+label-visible-padding = 2
+
+; Default: %icon% %name%
+label-urgent = %index%
+label-urgent-foreground = ${colors.black}
+label-urgent-background = ${colors.red}
+label-urgent-padding = 2
+#+end_src
+
+** Date
+#+begin_src conf :tangle includes/modules/date.ini
+[module/date]
+type = internal/date
+interval = 30
+
+time = "%H:%M"
+time-alt = "%a, %b %d %H:%M"
+
+label = %{T2}%time%%{T-}
+format = <label>
+format-prefix = %{T4} %{T-}
+format-padding = 1
+format-prefix-foreground = ${colors.cyan}
+#+end_src
+
+** CPU
+#+begin_src conf :tangle includes/modules/cpu.ini
+[module/cpu]
+type = internal/cpu
+interval = 5
+
+format = <label>
+label = %{T1}%percentage:2%%%{T-}
+label-foreground = ${colors.fg}
+label-padding = 1
+format-padding = 1
+format-prefix = %{T5}%{T-}
+format-prefix-foreground = ${colors.green}
+#+end_src
+
+** Memory
+#+begin_src conf :tangle includes/modules/memory.ini
+[module/memory]
+type = internal/memory
+interval = 5
+
+label = %{T1}%percentage_used%%%{T-}
+label-foreground = ${colors.fg}
+label-padding = 1
+format = <label>
+format-padding = 1
+format-prefix = %{T5}%{T-}
+format-prefix-foreground = ${colors.blue}
+#+end_src
+
+** Volume
+#+begin_src conf :tangle includes/modules/pulseaudio.ini
+[module/pulseaudio]
+type = internal/pulseaudio
+use-ui-max = false
+
+label-volume = %{T1}%percentage%%%{T-}
+label-volume-foreground = ${colors.fg}
+label-volume-padding = 1
+format-volume = <label-volume>
+format-volume-padding = 1
+format-volume-prefix = %{T5}%{T-}
+format-volume-prefix-foreground = ${colors.orange}
+
+label-muted = %{T1}%percentage%%%{T-}
+label-muted-foreground = ${colors.fg}
+label-muted-padding = 1
+format-muted = <label-muted>
+format-muted-padding = 1
+format-muted-prefix = %{T5}%{T-}
+format-muted-prefix-foreground = ${colors.disabled}
+
+click-right = pavucontrol&
+#+end_src
+
+* SETTINGS
+Contaings general settings.
+
+#+begin_src conf :tangle config.ini
+[settings]
+screenchange-reload = true
+pseudo-transparency = true
+#+end_src
+
+* INCLUDES
+Files that are included in conifg.ini
+
+** Colors
+#+begin_src conf :tangle includes/colors.ini
+[colors]
+fg = #F8F2F2
+bg = #282A36
+bg-darker = #23272F
+
+disabled = #6272A4
+highlight-bg = #44475A
+
+blue = #ADC3FF
+cyan = #8BE9FD
+green = #50FA7B
+orange = #FFB86C
+purple = #BD93F9
+red = #FF5555
+yellow = #F1FA8C
+
+black = #000000
+white = #FFFFFF
+
+transparent = #00000000
+semi-transparent = #EE000000
+#+end_src
+
+** Fonts
+#+begin_src conf :tangle includes/fonts.ini
+font-0 = FiraCode Nerd Font:style=Medium:size=12;3
+font-1 = FiraCode Nerd Font:style=Bold:size=12;3
+font-2 = FiraCode Nerd Font:size=12;5
+font-3 = Material Icons Outlined:12;4
+font-4 = Material Icons Round:12;4
+#+end_src

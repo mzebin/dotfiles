@@ -1,157 +1,59 @@
-;==========================================================
-;
-;
-;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
-;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
-;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
-;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
-;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
-;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-;
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/polybar/polybar
-;
-;   The README contains a lot of information
-;
-;==========================================================
+##################################################
+#                      BAR                       #
+##################################################
 
-[colors]
-background = #282A36
-background-alt = #44475A
-foreground = #F8F8F2
-primary = #8BE9FD
-secondary = #8ABEB7
-alert = #FF5555
-disabled = #808080
+# Incluedes
+include-file = $HOME/.config/polybar/includes/colors.ini
 
 [bar/bar]
+# Height and Width of the bar
+height = 30
 width = 100%
-height = 2.5%
-radius = 0
 
-background = ${colors.background}
-foreground = ${colors.foreground}
+# Position of the bar
+bottom = true
 
-line-size = 3
+# Window Manager
+wm-restack = i3
 
-border-size = 2
-border-color = #00000000
+# Background and Foreground colors
+background = ${colors.bg}
+foreground = ${colors.fg}
 
-padding-left = 0
-padding-right = 1
-
-module-margin = 1
-
-separator = |
-separator-foreground = ${colors.disabled}
-
-font-0 = FiraCode Nerd Font;1
+# Fonts
+include-file = $HOME/.config/polybar/includes/fonts.ini
 
 modules-left = i3
-modules-right = memory cpu pulseaudio date
+modules-center = date
+modules-right = cpu memory pulseaudio
 
+# Tray Settings
+tray-background = ${colors.bg-darker}
+tray-padding = 2
+tray-position = right
+tray-maxsize = 16
+
+# Scroll Settings
+scroll-up = next
+scroll-down = prev
+
+# Cursor Settings
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-enable-ipc = true
+##################################################
+#                    MODULES                     #
+##################################################
 
-bottom = true
+include-file = $HOME/.config/polybar/includes/modules/i3.ini
+include-file = $HOME/.config/polybar/includes/modules/date.ini
+include-file = $HOME/.config/polybar/includes/modules/cpu.ini
+include-file = $HOME/.config/polybar/includes/modules/memory.ini
+include-file = $HOME/.config/polybar/includes/modules/pulseaudio.ini
 
-[module/i3]
-type = internal/i3
-
-; Default: false
-pin-workspaces = true
-
-; Default: false
-strip-wsnumbers = true
-
-; Default: false
-index-sort = true
-
-; Default: true
-enable-click = false
-
-; Default: true
-enable-scroll = false
-
-; Default: true
-wrapping-scroll = false
-
-; Default: true
-reverse-scroll = false
-
-; Default: false
-fuzzy-match = true
-
-format = <label-state> <label-mode>
-
-; Default: %mode%
-label-mode = %mode%
-label-mode-padding = 2
-label-mode-foreground = #000000
-label-mode-background = #ff5555
-
-; Default: %icon% %name%
-label-focused = %index%
-label-focused-padding = 2
-label-focused-foreground = ${colors.foreground}
-label-focused-background = ${colors.background-alt}
-
-; Default: %icon% %name%
-label-unfocused = %index%
-label-unfocused-padding = 2
-label-unfocused-foreground = ${colors.disabled}
-label-unfocused-background = ${colors.background}
-
-; Default: %icon% %name%
-label-visible = %index%
-label-visible-padding = 2
-
-; Default: %icon% %name%
-label-urgent = %index%
-label-urgent-foreground = #000000
-label-urgent-background = #ff5555
-label-urgent-padding = 2
-
-[module/pulseaudio]
-type = internal/pulseaudio
-
-format-volume-prefix = "墳 "
-format-volume-prefix-foreground = ${colors.primary}
-format-volume = <label-volume>
-
-label-volume = %percentage%%
-
-label-muted = "婢 %percentage%%"
-label-muted-foreground = ${colors.disabled}
-
-[module/memory]
-type = internal/memory
-interval = 5
-format-prefix = " "
-format-prefix-foreground = ${colors.primary}
-label = %{A1:gnome-system-monitor:}%percentage_used:2%%%{A}
-
-[module/cpu]
-type = internal/cpu
-interval = 5
-format-prefix = " "
-format-prefix-foreground = ${colors.primary}
-label = %{A1:gnome-system-monitor:}%percentage:2%%%{A}
-
-[module/date]
-type = internal/date
-interval = 30
-
-date = %H:%M
-date-alt = %a - %d/%m/%y %H:%M
-
-label = %date%
-label-foreground = ${colors.foreground}
-
+##################################################
+#                    SETTINGS                    #
+##################################################
 [settings]
 screenchange-reload = true
 pseudo-transparency = true
-
