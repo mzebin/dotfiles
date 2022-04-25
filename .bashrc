@@ -11,9 +11,9 @@ export PATH="$PATH:/home/zebin/.local/bin:/home/zebin/.webdrivers:/usr/bin/go/bi
 
 # Aliases
 alias g="git";
-alias vim="nvim";
-# alias vim="neovide";
-# alias nvim="neovide";
+# alias vim="nvim";
+alias vim="neovide";
+alias nvim="neovide";
 alias dotfiles="/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME"
 
 # Editor
